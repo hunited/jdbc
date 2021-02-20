@@ -6,5 +6,5 @@
 ### Adatbázis programozás Java nyelven - JDBC
 * [jdbcone](src/main/java/jdbcone/) - Egyszerű JDBC adatmódosítás
 * [jdbctwo](src/main/java/jdbctwo/) - Egyszerű JDBC lekérdezés
-* [jdbcthree](src/main/java/three/) - Alkalmazás architektúra
+* [jdbcthree](src/main/java/jdbcthree/) - Alkalmazás architektúra
 
