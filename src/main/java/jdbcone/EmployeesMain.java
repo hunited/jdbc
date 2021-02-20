@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class EmployeesMain {
 
-    private final static String NAME_AND_PW = "employees";
+    private static final String NAME_AND_PW = "employees";
 
     public static void main(String[] args) throws SQLException {
         MariaDbDataSource dataSource = new MariaDbDataSource();
