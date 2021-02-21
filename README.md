@@ -10,4 +10,5 @@
 * [jdbcfour](src/main/java/jdbcfour/) - Generált azonosító lekérdezése
 * [jdbcfive](src/main/java/jdbcfive/) - Tranzakciókezelés
 * [jdbcsix](src/main/java/jdbcsix/) - Adatbázis metaadatok
+* [jdbcseven](src/main/java/jdbcseven/) - Blob
 
