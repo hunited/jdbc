@@ -46,7 +46,7 @@ class ImagesDaoTest {
         try (InputStream is = imagesDao.getImageByName("training360.gif")) {
             is.transferTo(byteArrayOutputStream);
         }
-        assertTrue(byteArrayOutputStream.size() > 40000);
+        assertTrue(byteArrayOutputStream.size() > 5000);
     }
 
 }
