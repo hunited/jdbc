@@ -1,4 +1,4 @@
-package jdbcseven;
+package blob;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,6 @@ class ImagesDaoTest {
 
     private static final String NAME_AND_PW = "employees";
     private ImagesDao imagesDao;
-    private Flyway flyway;
 
     @BeforeEach
     void setUp() {
@@ -29,19 +28,20 @@ class ImagesDaoTest {
             throw new IllegalStateException("Can not connect to database", se);
         }
         imagesDao = new ImagesDao(dataSource);
-        flyway = Flyway.configure().dataSource(dataSource).load();
+        Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+        flyway.clean();
+        flyway.migrate();
     }
 
     @Test
     void saveImage() {
-        flyway.clean();
-        flyway.migrate();
         long result = imagesDao.saveImage("training360.gif", ImagesDaoTest.class.getResourceAsStream("/training360.gif"));
         assertEquals(1, result);
     }
 
     @Test
     void getImageByName() throws IOException {
+        imagesDao.saveImage("training360.gif", ImagesDaoTest.class.getResourceAsStream("/training360.gif"));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (InputStream is = imagesDao.getImageByName("training360.gif")) {
             is.transferTo(byteArrayOutputStream);

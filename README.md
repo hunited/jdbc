@@ -4,11 +4,13 @@
 ## Tematika
 
 ### Adatbázis programozás Java nyelven - JDBC
-* [jdbcone](src/main/java/jdbcone/) - Egyszerű JDBC adatmódosítás
-* [jdbctwo](src/main/java/jdbctwo/) - Egyszerű JDBC lekérdezés
-* [jdbcthree](src/main/java/jdbcthree/) | [JUnit teszt](src/test/java/jdbcthree/) - Alkalmazás architektúra
-* [jdbcfour](src/main/java/jdbcfour/) | [JUnit teszt](src/test/java/jdbcfour/) - Generált azonosító lekérdezése
-* [jdbcfive](src/main/java/jdbcfive/) | [JUnit teszt](src/test/java/jdbcfive/) - Tranzakciókezelés
-* [jdbcsix](src/main/java/jdbcsix/) | [JUnit teszt](src/test/java/jdbcsix/) - Adatbázis metaadatok
-* [jdbcseven](src/main/java/jdbcseven/) | [JUnit teszt](src/test/java/jdbcseven/) - Blob
+* [simpleupdate](src/main/java/simpleupdate/) - Egyszerű JDBC adatmódosítás
+* [simplequery](src/main/java/simplequery/) - Egyszerű JDBC lekérdezés
+* [architecture](src/main/java/architecture/) | [JUnit teszt](src/test/java/architecture/) - Alkalmazás architektúra
+* [generatedid](src/main/java/generatedid/) | [JUnit teszt](src/test/java/generatedid/) - Generált azonosító lekérdezése
+* [transaction](src/main/java/transaction/) | [JUnit teszt](src/test/java/transaction/) - Tranzakciókezelés
+* [metadata](src/main/java/metadata/) | [JUnit teszt](src/test/java/metadata/) - Adatbázis metaadatok
+* [advancedrs](src/main/java/advancedrs/) | [JUnit teszt](src/test/java/advancedrs/) - Haladó ResultSet
+* [blob](src/main/java/blob/) | [JUnit teszt](src/test/java/blob/) - Blob
+* [spring](src/main/java/spring/) | [JUnit teszt](src/test/java/spring/) - Spring JdbcTemplate
 

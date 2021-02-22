@@ -1,4 +1,4 @@
-package jdbcthree;
+package architecture;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +15,6 @@ class EmployeesDaoTest {
 
     private static final String NAME_AND_PW = "employees";
     private EmployeesDao employeesDao;
-    private Flyway flyway;
 
     @BeforeEach
     void setUp() {
@@ -26,24 +27,26 @@ class EmployeesDaoTest {
             throw new IllegalStateException("Can not connect to database", se);
         }
         employeesDao = new EmployeesDao(dataSource);
-        flyway = Flyway.configure().dataSource(dataSource).load();
+        Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+        flyway.clean();
+        flyway.migrate();
     }
 
     @Test
     void createEmployee() {
-        flyway.clean();
-        flyway.migrate();
         employeesDao.createEmployee("John Doe");
         assertEquals(5, employeesDao.listEmployeeNames().size());
     }
 
     @Test
     void listEmployeeNames() {
-        assertEquals("[John Doe, Jane Doe, Jack Doe, Joe Doe, John Doe]", employeesDao.listEmployeeNames().toString());
+        List<String> asserted = Arrays.asList("John Doe", "Jane Doe", "Jack Doe", "Joe Doe");
+        assertEquals(asserted, employeesDao.listEmployeeNames());
     }
 
     @Test
     void findEmployeeNameById() {
+        employeesDao.createEmployee("John Doe");
         assertEquals("John Doe", employeesDao.findEmployeeNameById(5));
     }
 

@@ -1,4 +1,4 @@
-package jdbcthree;
+package architecture;
 
 import javax.sql.DataSource;
 
@@ -27,7 +27,7 @@ public class EmployeesDao {
     public List<String> listEmployeeNames() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT `emp_name` FROM `employees`")) {
+             ResultSet resultSet = statement.executeQuery("SELECT `emp_name` FROM `employees` ORDER BY `id`")) {
             return getNames(resultSet);
         } catch (SQLException se) {
             throw new IllegalStateException("Cannot select employees", se);

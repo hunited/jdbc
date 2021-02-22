@@ -1,4 +1,4 @@
-package jdbcfour;
+package transaction;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -26,10 +26,19 @@ public class EmployeesDao {
         }
     }
 
+    public List<Long> createEmployees(List<String> names) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            return processingSqlQueries(names, connection);
+        } catch (SQLException se) {
+            throw new IllegalStateException("Cannot insert", se);
+        }
+    }
+
     public List<String> listEmployeeNames() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT `emp_name` FROM `employees`")) {
+             ResultSet resultSet = statement.executeQuery("SELECT `emp_name` FROM `employees` ORDER BY `id`")) {
             return getNames(resultSet);
         } catch (SQLException se) {
             throw new IllegalStateException("Cannot select employees", se);
@@ -53,6 +62,31 @@ public class EmployeesDao {
             }
             throw new IllegalStateException("Can not get ID");
         }
+    }
+
+    private List<Long> processingSqlQueries(List<String> names, Connection connection) throws SQLException {
+        List<Long> result = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO `employees`(emp_name) VALUES (?);", Statement.RETURN_GENERATED_KEYS
+        )) {
+            for (String name : names) {
+                processingLine(result, statement, name);
+            }
+            connection.commit();
+        } catch (IllegalArgumentException iae) {
+            connection.rollback();
+            result.clear();
+        }
+        return result;
+    }
+
+    private void processingLine(List<Long> result, PreparedStatement statement, String name) throws SQLException {
+        if (name.startsWith("x")) {
+            throw new IllegalArgumentException("Invalid name");
+        }
+        statement.setString(1, name);
+        statement.executeUpdate();
+        result.add(getIdByStatement(statement));
     }
 
     private static List<String> getNames(ResultSet resultSet) throws SQLException {

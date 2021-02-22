@@ -1,4 +1,4 @@
-package jdbcfour;
+package metadata;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,13 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EmployeesDaoTest {
+class MetaDataDaoTest {
 
     private static final String NAME_AND_PW = "employees";
-    private EmployeesDao employeesDao;
+    private MetaDataDao metaDataDao;
     private Flyway flyway;
 
     @BeforeEach
@@ -25,26 +26,16 @@ class EmployeesDaoTest {
         } catch (SQLException se) {
             throw new IllegalStateException("Can not connect to database", se);
         }
-        employeesDao = new EmployeesDao(dataSource);
+        metaDataDao = new MetaDataDao(dataSource);
         flyway = Flyway.configure().dataSource(dataSource).load();
     }
 
     @Test
-    void createEmployeeWithReturnId() {
+    void getTableNames() {
         flyway.clean();
         flyway.migrate();
-        long result = employeesDao.createEmployee("John Doe");
-        assertEquals(5, result);
-    }
-
-    @Test
-    void listEmployeeNames() {
-        assertEquals("[John Doe, Jane Doe, Jack Doe, Joe Doe, John Doe]", employeesDao.listEmployeeNames().toString());
-    }
-
-    @Test
-    void findEmployeeNameById() {
-        assertEquals("John Doe", employeesDao.findEmployeeNameById(5));
+        List<String> result = metaDataDao.getTableNames();
+        assertTrue(result.contains("employees"));
     }
 
 }

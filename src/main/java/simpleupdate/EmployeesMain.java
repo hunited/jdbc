@@ -1,4 +1,4 @@
-package jdbcone;
+package simpleupdate;
 
 import org.mariadb.jdbc.MariaDbDataSource;
 

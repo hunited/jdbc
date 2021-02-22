@@ -1,10 +1,12 @@
-package jdbctwo;
+package simplequery;
 
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FindByIdMain {
+public class SelectEmployeesMain {
 
     private static final String NAME_AND_PW = "employees";
 
@@ -18,23 +20,21 @@ public class FindByIdMain {
 
     private static void selectNameById(MariaDbDataSource dataSource) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT `emp_name` FROM `employees` WHERE `id` = ?")) {
-            statement.setLong(1, 1L);
-            selectNameByResultSet(statement);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT `emp_name` FROM `employees` ORDER BY `id`")) {
+            System.out.println(getNames(resultSet));
         } catch (SQLException se) {
             throw new IllegalStateException("Cannot select employees", se);
         }
     }
 
-    private static void selectNameByResultSet(PreparedStatement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                String name = resultSet.getString("emp_name");
-                System.out.println(name);
-            } else {
-                throw new IllegalArgumentException("Not found this id");
-            }
+    private static List<String> getNames(ResultSet resultSet) throws SQLException {
+        List<String> names = new ArrayList<>();
+        while (resultSet.next()) {
+            String name = resultSet.getString("emp_name");
+            names.add(name);
         }
+        return names;
     }
 
 }
