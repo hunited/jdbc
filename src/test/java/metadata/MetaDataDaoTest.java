@@ -14,7 +14,6 @@ class MetaDataDaoTest {
 
     private static final String NAME_AND_PW = "employees";
     private MetaDataDao metaDataDao;
-    private Flyway flyway;
 
     @BeforeEach
     void setUp() {
@@ -27,13 +26,13 @@ class MetaDataDaoTest {
             throw new IllegalStateException("Can not connect to database", se);
         }
         metaDataDao = new MetaDataDao(dataSource);
-        flyway = Flyway.configure().dataSource(dataSource).load();
+        Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+        flyway.clean();
+        flyway.migrate();
     }
 
     @Test
     void getTableNames() {
-        flyway.clean();
-        flyway.migrate();
         List<String> result = metaDataDao.getTableNames();
         assertTrue(result.contains("employees"));
     }
